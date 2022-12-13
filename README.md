@@ -1,2 +1,2 @@
 # Projector
-UI Element that reproduces an animation based on sprite sheet file.
+UI Element that reproduces animations based on sprite sheet files.

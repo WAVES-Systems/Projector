@@ -58,10 +58,10 @@ namespace WavesSystems
         /// </summary>
         public int ColumnCount
         {
-            get { return (int)GetValue(ColumnsProperty); }
-            set { SetValue(ColumnsProperty, value); }
+            get { return (int)GetValue(ColumnCountProperty); }
+            set { SetValue(ColumnCountProperty, value); }
         }
-        public static readonly DependencyProperty ColumnsProperty =
+        public static readonly DependencyProperty ColumnCountProperty =
             DependencyProperty.Register("ColumnCount", typeof(int), typeof(Projector), new PropertyMetadata(1, new PropertyChangedCallback(OnSpriteSheetPropertiesUpdate)));
 
         /// <summary>

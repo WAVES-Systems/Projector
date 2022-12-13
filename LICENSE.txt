@@ -1,4 +1,4 @@
-﻿WAVES PROJECTOR 1.0.0.5
+﻿WAVES PROJECTOR v1
 Copyright (c) 2022 Waves Systems
 
 Apache License

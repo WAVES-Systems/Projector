@@ -1,9 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 
 namespace WavesSystems
 {
@@ -175,7 +178,15 @@ namespace WavesSystems
         {
             Projector parent = (Projector)dependencyObject;
             parent._rowCount = (int)Math.Ceiling(parent.FrameCount / (double)parent.ColumnCount);
-            parent.ImageBrushSprite.Viewport = new Rect(0, 0, parent.Width * parent.ColumnCount, parent.Height * parent._rowCount);
+            double desiredWidth = parent.Width * parent.ColumnCount;
+            double desiredHeight = parent.Height * parent._rowCount;
+            parent.ImageBrushSprite.Viewport = new Rect(0, 0, desiredWidth, desiredHeight);
+            if (parent.ImageBrushSprite.ImageSource != null)
+            {
+                var bitmapSource = (BitmapSource)parent.ImageBrushSprite.ImageSource;
+                parent.SpriteSheetScale.ScaleX = desiredWidth / bitmapSource.PixelWidth;
+                parent.SpriteSheetScale.ScaleY = desiredHeight / bitmapSource.PixelHeight;
+            }
         }
 
         private static void OnRepeatBehaviorUpdate(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
@@ -261,5 +272,10 @@ namespace WavesSystems
         }
 
         #endregion
+
+        private void Usr_ani_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            OnSpriteSheetPropertiesUpdate(this, new DependencyPropertyChangedEventArgs());
+        }
     }
 }

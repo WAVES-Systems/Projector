@@ -9,7 +9,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
 
-        <WavesSystems:Projector HorizontalAlignment="Center" VerticalAlignment="Center" Width="302" Height="172" FrameCount="146" ColumnCount="10" Source="/Assets/bcs_10c_146f.png"/>
+        <WavesSystems:Projector HorizontalAlignment="Center" VerticalAlignment="Center" Width="302" Height="172" FrameCount="146" ColumnCount="10" Source="/Assets/bcs_10c_146f.png" Margin="0"/>
 
     </Grid>
 </Window>

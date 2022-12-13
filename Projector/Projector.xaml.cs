@@ -184,8 +184,8 @@ namespace WavesSystems
             if (parent.ImageBrushSprite.ImageSource != null)
             {
                 var bitmapSource = (BitmapSource)parent.ImageBrushSprite.ImageSource;
-                parent.SpriteSheetScale.ScaleX = desiredWidth / bitmapSource.PixelWidth;
-                parent.SpriteSheetScale.ScaleY = desiredHeight / bitmapSource.PixelHeight;
+                parent.SpriteSheetScale.ScaleX = (desiredWidth / bitmapSource.PixelWidth) * (bitmapSource.DpiX / 96d);
+                parent.SpriteSheetScale.ScaleY = (desiredHeight / bitmapSource.PixelHeight) * (bitmapSource.DpiY / 96d);
             }
         }
 

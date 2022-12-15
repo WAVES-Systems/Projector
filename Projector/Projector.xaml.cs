@@ -24,6 +24,7 @@ namespace WavesSystems
         private Stopwatch _watcher = new Stopwatch();
         private Stopwatch _repeatWatcher = new Stopwatch();
         AutoResetEvent _taskCompleteTimer = new AutoResetEvent(false);
+        bool _isProgressing = true;
 
         public Projector()
         {
@@ -53,6 +54,18 @@ namespace WavesSystems
         {
             this._completed?.Invoke(this, new EventArgs());
         }
+
+        /// <summary>
+        /// Gets or sets a value that indicates whether the animation plays in reverse after it completes a forward iteration.
+        /// </summary>
+        public bool AutoReverse
+        {
+            get { return (bool)GetValue(AutoReverseProperty); }
+            set { SetValue(AutoReverseProperty, value); }
+        }
+
+        public static readonly DependencyProperty AutoReverseProperty =
+            DependencyProperty.Register("AutoReverse", typeof(bool), typeof(Projector), new PropertyMetadata(false));
 
         /// <summary>
         /// Gets or sets the repeating behavior of this animation.
@@ -90,14 +103,13 @@ namespace WavesSystems
         [Category("Animation")]
         [Browsable(true)]
         [Description("Gets or Sets the frame per second rate of animation.")]
-        [TypeConverter(typeof(Int16Converter))]
-        public int FrameRate
+        public double FrameRate
         {
-            get { return (int)GetValue(FrameRateProperty); }
+            get { return (double)GetValue(FrameRateProperty); }
             set { SetValue(FrameRateProperty, value); }
         }
         public static readonly DependencyProperty FrameRateProperty =
-            DependencyProperty.Register("FrameRate", typeof(int), typeof(Projector), new PropertyMetadata(60, new PropertyChangedCallback(OnFrameRatePropertyUpdated)));
+            DependencyProperty.Register("FrameRate", typeof(double), typeof(Projector), new PropertyMetadata(60d, new PropertyChangedCallback(OnFrameRatePropertyUpdated)));
 
         /// <summary>
         /// Gets or Sets the amount of frames in the sprite animation file.
@@ -156,7 +168,7 @@ namespace WavesSystems
             set { SetValue(AutoStartProperty, value); }
         }
         public static readonly DependencyProperty AutoStartProperty =
-            DependencyProperty.Register("AutoStart", typeof(bool), typeof(Projector), new PropertyMetadata(true,new PropertyChangedCallback(OnAutoStartPropertyUpdated)));
+            DependencyProperty.Register("AutoStart", typeof(bool), typeof(Projector), new PropertyMetadata(true, new PropertyChangedCallback(OnAutoStartPropertyUpdated)));
 
         /// <summary>
         /// Gets or Sets the animated image displayed in the view.
@@ -319,24 +331,53 @@ namespace WavesSystems
 
                     this.SpriteSheetOffset.X = -_currentPosition.X * this.ActualWidth;
                     this.SpriteSheetOffset.Y = -_currentPosition.Y * this.ActualHeight;
-                    this._currentFrame++;
 
-                    if (_currentFrame == FrameCount)
+                    if (_isProgressing)
                     {
-                        _currentPosition = new Point(0, 0);
-                        _currentFrame = 0;
-                        _repeatCounter++;
+                        this._currentFrame++;
+                        if (_currentFrame == FrameCount)
+                        {
+                            _repeatCounter++;
+                            if (!AutoReverse)
+                            {
+                                _currentPosition = new Point(0, 0);
+                                _currentFrame = 0;
+                            }
+                            else
+                            {
+                                _isProgressing = false;
+                                this._currentFrame--;
+                            }
+                        }
+                        else
+                        {
+                            _currentPosition.X++;
+
+                            if (_currentPosition.X == ColumnCount)
+                            {
+                                _currentPosition.X = 0;
+                                _currentPosition.Y++;
+                            }
+                        }
                     }
                     else
                     {
-                        _currentPosition.X++;
-
-                        if (_currentPosition.X == ColumnCount)
+                        this._currentFrame--;
+                        if (_currentFrame < 0)
                         {
-                            _currentPosition.X = 0;
-                            _currentPosition.Y++;
-                            if (_currentPosition.Y == _rowCount)
-                                _currentPosition.Y = 0;
+                            _currentPosition = new Point(0, 0);
+                            _currentFrame = 0;
+                            _isProgressing = true;
+                        }
+                        else
+                        {
+                            _currentPosition.X--;
+
+                            if (_currentPosition.X < 0)
+                            {
+                                _currentPosition.X = ColumnCount - 1;
+                                _currentPosition.Y--;
+                            }
                         }
                     }
                 }

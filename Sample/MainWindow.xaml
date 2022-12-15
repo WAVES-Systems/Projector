@@ -11,17 +11,49 @@
         Width="800">
     <Grid>
 
-        <WavesSystems:Projector HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Width="302"
+        <WavesSystems:Projector HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Width="177"
                                 Height="172"
-                                FrameCount="146"
-                                ColumnCount="10"
+                                FrameCount="38"
+                                ColumnCount="5"
                                 RepeatBehavior="3x"
                                 FillBehavior="Stop"
-                                Source="/Assets/bcs_10c_146f.png"
-                                Margin="0"
-                                FrameRate="120" />
+                                Source="/Assets/what.png"
+                                Margin="20,25,0,0"
+                                FrameRate="30" />
+        <WavesSystems:Projector HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Width="274"
+                                Height="172"
+                                FrameCount="37"
+                                ColumnCount="5"
+                                RepeatBehavior="Forever"
+                                FillBehavior="Stop"
+                                Source="/Assets/flag.png"
+                                Margin="20,217,0,0"
+                                FrameRate="15" />
+        <WavesSystems:Projector HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Width="274"
+                                Height="172"
+                                FrameCount="293"
+                                ColumnCount="15"
+                                RepeatBehavior="Forever"
+                                FillBehavior="Stop"
+                                Source="/Assets/nooooooo.png"
+                                Margin="312,217,0,0" />
+        <WavesSystems:Projector HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Width="274"
+                                Height="172"
+                                FrameCount="49"
+                                ColumnCount="7"
+                                RepeatBehavior="1x"
+                                FillBehavior="HoldEnd"
+                                Source="/Assets/chuck.png"
+                                Margin="219,25,0,0"
+                                FrameRate="30" />
 
     </Grid>
 </Window>

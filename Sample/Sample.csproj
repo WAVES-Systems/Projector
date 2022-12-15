@@ -101,7 +101,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\bcs_10c_146f.png" />
+    <Resource Include="Assets\chuck.png" />
+    <Resource Include="Assets\flag.png" />
+    <Resource Include="Assets\nooooooo.png" />
+    <Resource Include="Assets\what.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

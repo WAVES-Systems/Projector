@@ -49,10 +49,22 @@
                                 Height="172"
                                 FrameCount="49"
                                 ColumnCount="7"
-                                RepeatBehavior="1x"
+                                RepeatBehavior="3x"
                                 FillBehavior="HoldEnd"
                                 Source="/Assets/chuck.png"
                                 Margin="219,25,0,0"
+                                FrameRate="30" />
+        <WavesSystems:Projector HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Width="209"
+                                Height="172"
+                                FrameCount="51"
+                                ColumnCount="7"
+                                RepeatBehavior="Forever"
+                                FillBehavior="Stop"
+                                AutoReverse="True"
+                                Source="/Assets/trophy.png"
+                                Margin="508,25,0,0"
                                 FrameRate="30" />
 
     </Grid>

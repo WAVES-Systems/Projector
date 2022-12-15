@@ -23,7 +23,7 @@ namespace WavesSystems
         private int _currentFrame = 0;
         private Stopwatch _watcher = new Stopwatch();
         private Stopwatch _repeatWatcher = new Stopwatch();
-        AutoResetEvent _taskCompleteTimer = new AutoResetEvent(false);
+        CancellationTokenSource _completeTokenSource = new CancellationTokenSource();
         bool _isProgressing = true;
 
         public Projector()
@@ -56,16 +56,25 @@ namespace WavesSystems
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether the animation plays in reverse after it completes a forward iteration.
+        /// Gets the length of time for which this Animation plays, not counting repetitions.
         /// </summary>
-        public bool AutoReverse
-        {
-            get { return (bool)GetValue(AutoReverseProperty); }
-            set { SetValue(AutoReverseProperty, value); }
-        }
+        public TimeSpan Duration => TimeSpan.FromMilliseconds(FrameRate * (_frameRateInterval.TotalMilliseconds + 0.5d));
 
-        public static readonly DependencyProperty AutoReverseProperty =
-            DependencyProperty.Register("AutoReverse", typeof(bool), typeof(Projector), new PropertyMetadata(false));
+        /// <summary>
+        /// Gets the length of time for which this Animation plays, counting repetitions.
+        /// </summary>
+        public TimeSpan TotalDuration
+        {
+            get
+            {
+                if (RepeatBehavior == RepeatBehavior.Forever)
+                    return TimeSpan.MaxValue;
+                else if (RepeatBehavior.HasDuration)
+                    return RepeatBehavior.Duration;
+
+                return TimeSpan.FromMilliseconds(Duration.TotalMilliseconds * RepeatBehavior.Count);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the repeating behavior of this animation.
@@ -155,6 +164,20 @@ namespace WavesSystems
                     StopAnimation();
             }
         }
+        /// <summary>
+        /// Gets or sets a value that indicates whether the animation plays in reverse after it completes a forward iteration.
+        /// </summary>
+        [Category("Animation")]
+        [Browsable(true)]
+        [Description("Gets or sets a value that indicates whether the animation plays in reverse after it completes a forward iteration.")]
+        public bool AutoReverse
+        {
+            get { return (bool)GetValue(AutoReverseProperty); }
+            set { SetValue(AutoReverseProperty, value); }
+        }
+
+        public static readonly DependencyProperty AutoReverseProperty =
+            DependencyProperty.Register("AutoReverse", typeof(bool), typeof(Projector), new PropertyMetadata(false));
 
         /// <summary>
         /// Gets of sets a value that indicates whether the animation starts automatically after loading.
@@ -203,16 +226,15 @@ namespace WavesSystems
         /// <summary>
         /// Starts the animation.
         /// </summary>
-        public Task BeginAnimationTask()
+        public async Task BeginAnimationAsync()
         {
-            return new Task(() =>
+            _completeTokenSource = new CancellationTokenSource();
+            BeginAnimation();
+            try
             {
-                this.Completed += (o, a) => { _taskCompleteTimer.Set(); };
-
-                BeginAnimation();
-
-                _taskCompleteTimer.WaitOne();
-            });
+                await Task.Delay(TimeSpan.FromMilliseconds(int.MaxValue), _completeTokenSource.Token);
+            }
+            catch (TaskCanceledException) { }
         }
 
 
@@ -221,7 +243,7 @@ namespace WavesSystems
         /// </summary>
         public void StopAnimation()
         {
-            _taskCompleteTimer.Set();
+            _completeTokenSource.Cancel();
             _watcher.Stop();
             _repeatWatcher.Stop();
             _watcher.Reset();

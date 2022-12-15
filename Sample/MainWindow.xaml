@@ -11,7 +11,8 @@
         Width="800">
     <Grid>
 
-        <WavesSystems:Projector HorizontalAlignment="Left"
+        <WavesSystems:Projector x:Name="What"
+                                HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Width="177"
                                 Height="172"
@@ -21,7 +22,9 @@
                                 FillBehavior="Stop"
                                 Source="/Assets/what.png"
                                 Margin="20,25,0,0"
-                                FrameRate="30" />
+                                FrameRate="30"
+                                MouseLeftButtonUp="What_MouseLeftButtonUp"
+                                AutoStart="False" />
         <WavesSystems:Projector HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Width="274"
@@ -45,17 +48,6 @@
                                 Margin="312,217,0,0" />
         <WavesSystems:Projector HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
-                                Width="274"
-                                Height="172"
-                                FrameCount="49"
-                                ColumnCount="7"
-                                RepeatBehavior="3x"
-                                FillBehavior="HoldEnd"
-                                Source="/Assets/chuck.png"
-                                Margin="219,25,0,0"
-                                FrameRate="30" />
-        <WavesSystems:Projector HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
                                 Width="209"
                                 Height="172"
                                 FrameCount="51"
@@ -64,8 +56,21 @@
                                 FillBehavior="Stop"
                                 AutoReverse="True"
                                 Source="/Assets/trophy.png"
-                                Margin="508,25,0,0"
+                                Margin="426,25,0,0"
                                 FrameRate="30" />
+        <WavesSystems:Projector x:Name="What_Copy"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Width="177"
+                                Height="172"
+                                FrameCount="38"
+                                ColumnCount="5"
+                                RepeatBehavior="00:00:5"
+                                FillBehavior="HoldEnd"
+                                Source="/Assets/what.png"
+                                Margin="202,25,0,0"
+                                FrameRate="30"
+                                MouseLeftButtonUp="What_MouseLeftButtonUp" />
 
     </Grid>
 </Window>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Sample
 {
@@ -23,6 +25,12 @@ namespace Sample
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private async void What_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            await What.BeginAnimationAsync();
+            What.Visibility = Visibility.Collapsed;
         }
     }
 }

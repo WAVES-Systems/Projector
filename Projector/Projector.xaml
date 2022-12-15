@@ -9,8 +9,11 @@
              d:DesignHeight="100"
              d:DesignWidth="100"
              Loaded="Usr_ani_Loaded"
-             Unloaded="Usr_ani_Unloaded" SizeChanged="Usr_ani_SizeChanged">
-    <Rectangle Loaded="Grid_Loaded">
+             Unloaded="Usr_ani_Unloaded"
+             SizeChanged="Usr_ani_SizeChanged"
+             Background="{Binding ElementName=Usr_ani, Path=Background, Mode=OneWay}">
+    <Rectangle x:Name="Rect_stage"
+               Loaded="Rect_stage_Loaded">
         <Rectangle.Fill>
             <ImageBrush x:Name="ImageBrushSprite"
                         Stretch="None"
@@ -18,12 +21,12 @@
                         AlignmentY="Top">
                 <ImageBrush.Transform>
                     <TransformGroup>
-                        <ScaleTransform x:Name="SpriteSheetScale" 
-                                        ScaleX="1" 
-                                        ScaleY="1"/>
+                        <ScaleTransform x:Name="SpriteSheetScale"
+                                        ScaleX="1"
+                                        ScaleY="1" />
                         <TranslateTransform x:Name="SpriteSheetOffset"
-                                        X="0"
-                                        Y="0" />
+                                            X="0"
+                                            Y="0" />
                     </TransformGroup>
                 </ImageBrush.Transform>
             </ImageBrush>

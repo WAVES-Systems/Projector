@@ -1,9 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
 namespace WavesSystems
@@ -18,8 +21,9 @@ namespace WavesSystems
         private Point _currentPosition = new Point(0, 0);
         private int _rowCount = 1;
         private int _currentFrame = 0;
-        private int _repeatBehavior = 0;
         private Stopwatch _watcher = new Stopwatch();
+        private Stopwatch _repeatWatcher = new Stopwatch();
+        AutoResetEvent _taskCompleteTimer = new AutoResetEvent(false);
 
         public Projector()
         {
@@ -28,9 +32,65 @@ namespace WavesSystems
 
         #region Properties
 
+        private EventHandler _completed;
+
+        /// <summary>
+        /// Occurs when this timeline has completely finished playing: it will no longer enter its active period.
+        /// </summary>
+        public event EventHandler Completed
+        {
+            add
+            {
+                _completed += value;
+            }
+            remove
+            {
+                _completed -= value;
+            }
+        }
+
+        private void OnCompleted()
+        {
+            this._completed?.Invoke(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// Gets or sets the repeating behavior of this animation.
+        /// </summary>
+        [Category("Animation")]
+        [Browsable(true)]
+        [Description("Gets or sets the repeating behavior of this animation.")]
+        public RepeatBehavior RepeatBehavior
+        {
+            get { return (RepeatBehavior)GetValue(RepeatBehaviorProperty); }
+            set { SetValue(RepeatBehaviorProperty, value); }
+        }
+
+        public static readonly DependencyProperty RepeatBehaviorProperty =
+            DependencyProperty.Register("RepeatBehavior", typeof(RepeatBehavior), typeof(Projector), new PropertyMetadata(RepeatBehavior.Forever));
+
+        /// <summary>
+        /// Gets or sets a value that specifies how the animation behaves after it reaches the end of its active period.
+        /// </summary>
+        [Category("Animation")]
+        [Browsable(true)]
+        [Description("Gets or sets a value that specifies how the animation behaves after it reaches the end of its active period.")]
+        public FillBehavior FillBehavior
+        {
+            get { return (FillBehavior)GetValue(FillBehaviorProperty); }
+            set { SetValue(FillBehaviorProperty, value); }
+        }
+
+        public static readonly DependencyProperty FillBehaviorProperty =
+            DependencyProperty.Register("FillBehavior", typeof(FillBehavior), typeof(Projector), new PropertyMetadata(FillBehavior.HoldEnd, new PropertyChangedCallback(OnFillBehaviorPropertyUpdated)));
+
         /// <summary>
         /// Gets or Sets the frame per second rate of animation.
         /// </summary>
+        [Category("Animation")]
+        [Browsable(true)]
+        [Description("Gets or Sets the frame per second rate of animation.")]
+        [TypeConverter(typeof(Int16Converter))]
         public int FrameRate
         {
             get { return (int)GetValue(FrameRateProperty); }
@@ -42,6 +102,9 @@ namespace WavesSystems
         /// <summary>
         /// Gets or Sets the amount of frames in the sprite animation file.
         /// </summary>
+        [Category("Animation")]
+        [Browsable(true)]
+        [Description("Gets or Sets the frame per second rate of animation.")]
         public int FrameCount
         {
             get { return (int)GetValue(FrameCountProperty); }
@@ -54,6 +117,9 @@ namespace WavesSystems
         /// <summary>
         /// Gets or Sets the amount of columns in the sprite animation sheet.
         /// </summary>
+        [Category("Animation")]
+        [Browsable(true)]
+        [Description("Gets or Sets the amount of columns in the sprite animation sheet.")]
         public int ColumnCount
         {
             get { return (int)GetValue(ColumnCountProperty); }
@@ -65,45 +131,39 @@ namespace WavesSystems
         /// <summary>
         /// Gets or sets a value that indicates whether the animation is running.
         /// </summary>
+        [Browsable(false)]
         public bool IsPlaying
         {
             get => _watcher.IsRunning;
             set
             {
                 if (value)
-                    Begin();
+                    BeginAnimation();
                 else
-                    Stop();
+                    StopAnimation();
             }
         }
 
         /// <summary>
         /// Gets of sets a value that indicates whether the animation starts automatically after loading.
         /// </summary>
+        [Category("Animation")]
+        [Browsable(true)]
+        [Description("Gets of sets a value that indicates whether the animation starts automatically after loading.")]
         public bool AutoStart
         {
             get { return (bool)GetValue(AutoStartProperty); }
             set { SetValue(AutoStartProperty, value); }
         }
         public static readonly DependencyProperty AutoStartProperty =
-            DependencyProperty.Register("AutoStart", typeof(bool), typeof(Projector), new PropertyMetadata(true));
+            DependencyProperty.Register("AutoStart", typeof(bool), typeof(Projector), new PropertyMetadata(true,new PropertyChangedCallback(OnAutoStartPropertyUpdated)));
 
         /// <summary>
-        /// Defines the number of times the animation will be played.
+        /// Gets or Sets the animated image displayed in the view.
         /// </summary>
-        public string RepeatBehavior
-        {
-            get { return (string)GetValue(RepeatBehaviorProperty); }
-            set
-            { SetValue(RepeatBehaviorProperty, value); }
-        }
-
-        public static readonly DependencyProperty RepeatBehaviorProperty =
-            DependencyProperty.Register("RepeatBehavior", typeof(string), typeof(Projector), new PropertyMetadata("Forever", new PropertyChangedCallback(OnRepeatBehaviorUpdate)));
-
-        /// <summary>
-        /// Gets or Sets the animated image displayed in the view./>
-        /// </summary>
+        [Category("Animation")]
+        [Browsable(true)]
+        [Description("Gets or Sets the animated image displayed in the view.")]
         [TypeConverter(typeof(ImageSourceConverter))]
         public ImageSource Source
         {
@@ -119,30 +179,65 @@ namespace WavesSystems
         #region Methods
 
         /// <summary>
-        /// Initiates the animation.
+        /// Starts the animation.
         /// </summary>
-        public void Begin()
+        public void BeginAnimation()
         {
-            if (Source != null)
-                _watcher.Start();
+            _watcher.Start();
+            if (RepeatBehavior.HasDuration)
+                _repeatWatcher.Start();
         }
+
+        /// <summary>
+        /// Starts the animation.
+        /// </summary>
+        public Task BeginAnimationTask()
+        {
+            return new Task(() =>
+            {
+                this.Completed += (o, a) => { _taskCompleteTimer.Set(); };
+
+                BeginAnimation();
+
+                _taskCompleteTimer.WaitOne();
+            });
+        }
+
 
         /// <summary>
         /// Stops the animation.
         /// </summary>
-        public void Stop()
+        public void StopAnimation()
         {
-            _watcher.Reset();
+            _taskCompleteTimer.Set();
             _watcher.Stop();
-            _currentFrame = 0;
-            _currentPosition = new Point(0, 0);
+            _repeatWatcher.Stop();
+            _watcher.Reset();
+            _repeatWatcher.Reset();
             _repeatCounter = 0;
+
+            if (FillBehavior == FillBehavior.Stop)
+            {
+                _currentFrame = 0;
+                _currentPosition = new Point(0, 0);
+                this.SpriteSheetOffset.X = -_currentPosition.X * this.ActualWidth;
+                this.SpriteSheetOffset.Y = -_currentPosition.Y * this.ActualHeight;
+            }
         }
 
         #endregion
 
         #region Event handlers
 
+        private static void OnAutoStartPropertyUpdated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
+        {
+            var parent = (Projector)dependencyObject;
+            if (DesignerProperties.GetIsInDesignMode(parent))
+            {
+                parent.IsPlaying = (bool)eventArgs.NewValue;
+            }
+
+        }
         private static void OnSourcePropertyUpdated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
         {
             var parent = (Projector)dependencyObject;
@@ -163,6 +258,15 @@ namespace WavesSystems
                 parent.IsPlaying = false;
                 parent.ImageBrushSprite.Viewport = new Rect(0, 0, 1, 1);
                 parent.ImageBrushSprite.ImageSource = null;
+            }
+        }
+
+        private static void OnFillBehaviorPropertyUpdated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
+        {
+            var parent = (Projector)dependencyObject;
+            if (!parent.IsPlaying && (FillBehavior)eventArgs.NewValue == FillBehavior.Stop)
+            {
+                parent.StopAnimation();
             }
         }
 
@@ -187,23 +291,7 @@ namespace WavesSystems
             }
         }
 
-        private static void OnRepeatBehaviorUpdate(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
-        {
-            Projector parent = (Projector)dependencyObject;
-            string newValue = (string)eventArgs.NewValue;
-            newValue = newValue.ToLower();
-            if (newValue == "forever")
-            {
-                parent._repeatBehavior = 0;
-            }
-            else
-            {
-                parent._repeatBehavior = 0;
-                int.TryParse(newValue.Replace("x", string.Empty), out parent._repeatBehavior);
-            }
-        }
-
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        private void Rect_stage_Loaded(object sender, RoutedEventArgs e)
         {
             IsPlaying = false;
 
@@ -217,9 +305,11 @@ namespace WavesSystems
         {
             if (IsPlaying)
             {
-                if (_repeatBehavior > 0 && _repeatCounter >= _repeatBehavior)
+                if ((RepeatBehavior.HasDuration && _repeatWatcher.Elapsed >= RepeatBehavior.Duration)
+                    || (RepeatBehavior.HasCount && _repeatCounter >= RepeatBehavior.Count))
                 {
-                    Stop();
+                    StopAnimation();
+                    OnCompleted();
                     return;
                 }
 
@@ -256,7 +346,6 @@ namespace WavesSystems
         public void Dispose()
         {
             Source = null;
-            GC.Collect();
         }
 
         private void Usr_ani_Unloaded(object sender, RoutedEventArgs e)

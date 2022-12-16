@@ -224,7 +224,7 @@ namespace WavesSystems
         }
 
         /// <summary>
-        /// Starts the animation.
+        /// Starts the animation and finishes the execution when the animation completes its active period.
         /// </summary>
         public async Task BeginAnimationAsync()
         {

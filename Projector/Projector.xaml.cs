@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
-namespace WavesSystems
+namespace Waves.Visual
 {
     /// <summary>
     /// UI Element that reproduces an animation based on sprite sheet file.
@@ -237,6 +237,9 @@ namespace WavesSystems
             catch (TaskCanceledException) { }
         }
 
+        /// <summary>
+        /// Reset the Viewport element to the initial position.
+        /// </summary>
         private void ResetViewportPosition()
         {
             _currentFrame = 0;

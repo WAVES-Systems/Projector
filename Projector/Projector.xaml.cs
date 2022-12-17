@@ -214,7 +214,7 @@ namespace WavesSystems
         #region Methods
 
         /// <summary>
-        /// Starts the animation.
+        /// Starts or resumes the animation.
         /// </summary>
         public void BeginAnimation()
         {
@@ -224,7 +224,7 @@ namespace WavesSystems
         }
 
         /// <summary>
-        /// Starts the animation and finishes the execution when the animation completes its active period.
+        /// Starts or resumes the animation and holds the execution until the animation completes its active period.
         /// </summary>
         public async Task BeginAnimationAsync()
         {
@@ -237,6 +237,13 @@ namespace WavesSystems
             catch (TaskCanceledException) { }
         }
 
+        private void ResetViewportPosition()
+        {
+            _currentFrame = 0;
+            _currentPosition = new Point(0, 0);
+            this.SpriteSheetOffset.X = -_currentPosition.X * this.ActualWidth;
+            this.SpriteSheetOffset.Y = -_currentPosition.Y * this.ActualHeight;
+        }
 
         /// <summary>
         /// Stops the animation.
@@ -252,10 +259,7 @@ namespace WavesSystems
 
             if (FillBehavior == FillBehavior.Stop)
             {
-                _currentFrame = 0;
-                _currentPosition = new Point(0, 0);
-                this.SpriteSheetOffset.X = -_currentPosition.X * this.ActualWidth;
-                this.SpriteSheetOffset.Y = -_currentPosition.Y * this.ActualHeight;
+                ResetViewportPosition();
             }
         }
 
@@ -277,21 +281,44 @@ namespace WavesSystems
             var parent = (Projector)dependencyObject;
             try
             {
+                bool previousState = parent.IsPlaying;
                 parent.IsPlaying = false;
+                parent.ResetViewportPosition();
+                parent.ImageBrushSprite.ImageSource = eventArgs.NewValue as ImageSource;
+                parent.UpdateSpriteSheetProperties(false);
 
-                if (eventArgs.NewValue != null)
-                {
-                    OnSpriteSheetPropertiesUpdate(dependencyObject, eventArgs);
-                    parent.ImageBrushSprite.ImageSource = (ImageSource)eventArgs.NewValue;
-                    if (parent.AutoStart)
-                        parent.IsPlaying = true;
-                }
+                if (parent.AutoStart || previousState)
+                    parent.IsPlaying = true;
             }
             catch
             {
                 parent.IsPlaying = false;
                 parent.ImageBrushSprite.Viewport = new Rect(0, 0, 1, 1);
                 parent.ImageBrushSprite.ImageSource = null;
+            }
+        }
+
+        private void UpdateSpriteSheetProperties(bool resetAnimation)
+        {
+            bool previousState = this.IsPlaying;
+            if (resetAnimation)
+            {
+                this.IsPlaying = false;
+                ResetViewportPosition();
+            }
+
+            this._rowCount = (int)Math.Ceiling(this.FrameCount / (double)this.ColumnCount);
+            double desiredWidth = this.Width * this.ColumnCount;
+            double desiredHeight = this.Height * this._rowCount;
+            this.ImageBrushSprite.Viewport = new Rect(0, 0, desiredWidth, desiredHeight);
+
+            if (this.ImageBrushSprite.ImageSource != null)
+            {
+                var bitmapSource = (BitmapSource)this.ImageBrushSprite.ImageSource;
+                this.SpriteSheetScale.ScaleX = (desiredWidth / bitmapSource.PixelWidth) * (bitmapSource.DpiX / 96d);
+                this.SpriteSheetScale.ScaleY = (desiredHeight / bitmapSource.PixelHeight) * (bitmapSource.DpiY / 96d);
+                if (resetAnimation && (AutoStart || previousState))
+                    this.IsPlaying = true;
             }
         }
 
@@ -313,16 +340,7 @@ namespace WavesSystems
         private static void OnSpriteSheetPropertiesUpdate(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
         {
             Projector parent = (Projector)dependencyObject;
-            parent._rowCount = (int)Math.Ceiling(parent.FrameCount / (double)parent.ColumnCount);
-            double desiredWidth = parent.Width * parent.ColumnCount;
-            double desiredHeight = parent.Height * parent._rowCount;
-            parent.ImageBrushSprite.Viewport = new Rect(0, 0, desiredWidth, desiredHeight);
-            if (parent.ImageBrushSprite.ImageSource != null)
-            {
-                var bitmapSource = (BitmapSource)parent.ImageBrushSprite.ImageSource;
-                parent.SpriteSheetScale.ScaleX = (desiredWidth / bitmapSource.PixelWidth) * (bitmapSource.DpiX / 96d);
-                parent.SpriteSheetScale.ScaleY = (desiredHeight / bitmapSource.PixelHeight) * (bitmapSource.DpiY / 96d);
-            }
+            parent.UpdateSpriteSheetProperties(true);
         }
 
         private void Rect_stage_Loaded(object sender, RoutedEventArgs e)
@@ -357,7 +375,7 @@ namespace WavesSystems
                     if (_isProgressing)
                     {
                         this._currentFrame++;
-                        if (_currentFrame == FrameCount)
+                        if (_currentFrame >= FrameCount)
                         {
                             _repeatCounter++;
                             if (!AutoReverse)
@@ -375,7 +393,7 @@ namespace WavesSystems
                         {
                             _currentPosition.X++;
 
-                            if (_currentPosition.X == ColumnCount)
+                            if (_currentPosition.X >= ColumnCount)
                             {
                                 _currentPosition.X = 0;
                                 _currentPosition.Y++;
@@ -425,7 +443,7 @@ namespace WavesSystems
 
         private void Usr_ani_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            OnSpriteSheetPropertiesUpdate(this, new DependencyPropertyChangedEventArgs());
+            this.UpdateSpriteSheetProperties(true);
         }
     }
 }

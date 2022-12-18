@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WavesSystems.Projector")]
+[assembly: AssemblyTitle("Waves.Visual.Projector")]
 [assembly: AssemblyDescription("UI Element that reproduces animations based on sprite sheet files.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("WAVES Systems")]
-[assembly: AssemblyProduct("WavesSystems.Projector")]
+[assembly: AssemblyProduct("Waves.Visual.Projector")]
 [assembly: AssemblyCopyright("Copyright © 2022 WAVES Systems")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -30,5 +30,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("2.1.1.0")]
-[assembly: AssemblyFileVersion("2.1.1.0")]
+[assembly: AssemblyVersion("3.0.1.0")]
+[assembly: AssemblyFileVersion("3.0.1.0")]

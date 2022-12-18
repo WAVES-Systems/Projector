@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{29D2512C-6827-4638-B2CF-28237C82B4FF}</ProjectGuid>
     <OutputType>library</OutputType>
-    <RootNamespace>WavesSystems</RootNamespace>
+    <RootNamespace>Waves.Visual.Projector</RootNamespace>
     <AssemblyName>WavesSystems.Projector</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -31,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\WavesSystems.Projector.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

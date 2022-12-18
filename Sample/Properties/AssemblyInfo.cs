@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WavesSystems.Projector Sample")]
+[assembly: AssemblyTitle("Waves.Visual.Projector Sample")]
 [assembly: AssemblyDescription("Sample for demonstrating a UI Element that reproduces animations based on sprite sheet files.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("WAVES Systems")]
-[assembly: AssemblyProduct("WavesSystems.Projector Sample")]
+[assembly: AssemblyProduct("Waves.Visual.Projector Sample")]
 [assembly: AssemblyCopyright("Copyright © 2022 WAVES Systems")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

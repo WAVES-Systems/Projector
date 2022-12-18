@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
-namespace WavesSystems
+namespace Waves.Visual
 {
     /// <summary>
     /// UI Element that reproduces an animation based on sprite sheet file.
@@ -36,7 +36,7 @@ namespace WavesSystems
         private EventHandler _completed;
 
         /// <summary>
-        /// Occurs when this timeline has completely finished playing: it will no longer enter its active period.
+        /// Occurs when this animation has completely finished playing and will no longer enter its active period.
         /// </summary>
         public event EventHandler Completed
         {
@@ -48,11 +48,6 @@ namespace WavesSystems
             {
                 _completed -= value;
             }
-        }
-
-        private void OnCompleted()
-        {
-            this._completed?.Invoke(this, new EventArgs());
         }
 
         /// <summary>
@@ -88,6 +83,9 @@ namespace WavesSystems
             set { SetValue(RepeatBehaviorProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the <see cref="RepeatBehavior"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty RepeatBehaviorProperty =
             DependencyProperty.Register("RepeatBehavior", typeof(RepeatBehavior), typeof(Projector), new PropertyMetadata(RepeatBehavior.Forever));
 
@@ -103,6 +101,9 @@ namespace WavesSystems
             set { SetValue(FillBehaviorProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the <see cref="FillBehavior"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty FillBehaviorProperty =
             DependencyProperty.Register("FillBehavior", typeof(FillBehavior), typeof(Projector), new PropertyMetadata(FillBehavior.HoldEnd, new PropertyChangedCallback(OnFillBehaviorPropertyUpdated)));
 
@@ -117,6 +118,10 @@ namespace WavesSystems
             get { return (double)GetValue(FrameRateProperty); }
             set { SetValue(FrameRateProperty, value); }
         }
+
+        /// <summary>
+        /// Identifies the <see cref="FrameRate"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty FrameRateProperty =
             DependencyProperty.Register("FrameRate", typeof(double), typeof(Projector), new PropertyMetadata(60d, new PropertyChangedCallback(OnFrameRatePropertyUpdated)));
 
@@ -132,6 +137,10 @@ namespace WavesSystems
             set
             { SetValue(FrameCountProperty, value); }
         }
+
+        /// <summary>
+        /// Identifies the <see cref="FrameCount"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty FrameCountProperty =
             DependencyProperty.Register("FrameCount", typeof(int), typeof(Projector), new PropertyMetadata(1, new PropertyChangedCallback(OnSpriteSheetPropertiesUpdate)));
 
@@ -146,6 +155,10 @@ namespace WavesSystems
             get { return (int)GetValue(ColumnCountProperty); }
             set { SetValue(ColumnCountProperty, value); }
         }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnCount"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty ColumnCountProperty =
             DependencyProperty.Register("ColumnCount", typeof(int), typeof(Projector), new PropertyMetadata(1, new PropertyChangedCallback(OnSpriteSheetPropertiesUpdate)));
 
@@ -176,6 +189,9 @@ namespace WavesSystems
             set { SetValue(AutoReverseProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the <see cref="AutoReverse"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty AutoReverseProperty =
             DependencyProperty.Register("AutoReverse", typeof(bool), typeof(Projector), new PropertyMetadata(false));
 
@@ -190,6 +206,10 @@ namespace WavesSystems
             get { return (bool)GetValue(AutoStartProperty); }
             set { SetValue(AutoStartProperty, value); }
         }
+
+        /// <summary>
+        /// Identifies the <see cref="AutoStart"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty AutoStartProperty =
             DependencyProperty.Register("AutoStart", typeof(bool), typeof(Projector), new PropertyMetadata(true, new PropertyChangedCallback(OnAutoStartPropertyUpdated)));
 
@@ -206,6 +226,9 @@ namespace WavesSystems
             set { SetValue(SourceProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the <see cref="Source"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source", typeof(ImageSource), typeof(Projector), new PropertyMetadata(null, new PropertyChangedCallback(OnSourcePropertyUpdated)));
 
@@ -226,6 +249,7 @@ namespace WavesSystems
         /// <summary>
         /// Starts or resumes the animation and holds the execution until the animation completes its active period.
         /// </summary>
+        /// <returns>An asynchronous object that represents the operation.</returns>
         public async Task BeginAnimationAsync()
         {
             _completeTokenSource = new CancellationTokenSource();
@@ -237,6 +261,9 @@ namespace WavesSystems
             catch (TaskCanceledException) { }
         }
 
+        /// <summary>
+        /// Reset the Viewport element to the initial position.
+        /// </summary>
         private void ResetViewportPosition()
         {
             _currentFrame = 0;
@@ -266,6 +293,11 @@ namespace WavesSystems
         #endregion
 
         #region Event handlers
+
+        private void OnCompleted()
+        {
+            this._completed?.Invoke(this, new EventArgs());
+        }
 
         private static void OnAutoStartPropertyUpdated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
         {
@@ -308,8 +340,8 @@ namespace WavesSystems
             }
 
             this._rowCount = (int)Math.Ceiling(this.FrameCount / (double)this.ColumnCount);
-            double desiredWidth = this.Width * this.ColumnCount;
-            double desiredHeight = this.Height * this._rowCount;
+            double desiredWidth = this.ActualWidth * this.ColumnCount;
+            double desiredHeight = this.ActualHeight * this._rowCount;
             this.ImageBrushSprite.Viewport = new Rect(0, 0, desiredWidth, desiredHeight);
 
             if (this.ImageBrushSprite.ImageSource != null)
@@ -439,11 +471,11 @@ namespace WavesSystems
             CompositionTarget.Rendering += this.OnUpdate;
         }
 
-        #endregion
-
         private void Usr_ani_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             this.UpdateSpriteSheetProperties(true);
         }
+
+        #endregion
     }
 }

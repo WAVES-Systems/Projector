@@ -34,6 +34,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -96,12 +98,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Projector\Projector.csproj">
-      <Project>{29d2512c-6827-4638-b2cf-28237c82b4ff}</Project>
-      <Name>Projector</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\chuck.png" />
     <Resource Include="Assets\flag.png" />
     <Resource Include="Assets\nooooooo.png" />
@@ -109,6 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\trophy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Projector\Projector.csproj">
+      <Project>{29d2512c-6827-4638-b2cf-28237c82b4ff}</Project>
+      <Name>Projector</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

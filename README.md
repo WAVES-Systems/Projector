@@ -1,4 +1,4 @@
-![Badge](https://img.shields.io/badge/.NET%20Framework-4.8-information??style=for-the-badge&logo=.NET&logoColor=white&color=512BD4)  ![AUR license badge](https://img.shields.io/badge/license-Apache-blue???style=for-the-badge&logo=apache)  ![Badge](https://img.shields.io/badge/Visual%20Studio-2022-information??style=for-the-badge&logo=VisualStudio&logoColor=white&color=512BD4)  
+![Badge](https://img.shields.io/badge/.NET%20Framework-4.6.1-information??style=for-the-badge&logo=.NET&logoColor=white&color=512BD4)  ![AUR license badge](https://img.shields.io/badge/license-Apache-blue???style=for-the-badge&logo=apache)  ![Badge](https://img.shields.io/badge/Visual%20Studio-2022-information??style=for-the-badge&logo=VisualStudio&logoColor=white&color=512BD4)  
 # Waves Projector
 
 WPF UI Element that reproduces animations based on sprite sheet files.
@@ -39,7 +39,7 @@ Using this control is quite simple. Check the following steps:
 
 First thing, define the namespace in the parent object attributes.
 ```xml
-xmlns:visual="clr-namespace:Waves.Visual;assembly=Waves.Visual.Projector"
+xmlns:visual="clr-namespace:Waves.Visual;assembly=WavesSystems.Projector"
 ```
 
 Right! Now you can place the element like this:

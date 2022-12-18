@@ -36,7 +36,7 @@ namespace Waves.Visual
         private EventHandler _completed;
 
         /// <summary>
-        /// Occurs when this timeline has completely finished playing: it will no longer enter its active period.
+        /// Occurs when this animation has completely finished playing and will no longer enter its active period.
         /// </summary>
         public event EventHandler Completed
         {

@@ -50,11 +50,6 @@ namespace Waves.Visual
             }
         }
 
-        private void OnCompleted()
-        {
-            this._completed?.Invoke(this, new EventArgs());
-        }
-
         /// <summary>
         /// Gets the length of time for which this Animation plays, not counting repetitions.
         /// </summary>
@@ -254,6 +249,7 @@ namespace Waves.Visual
         /// <summary>
         /// Starts or resumes the animation and holds the execution until the animation completes its active period.
         /// </summary>
+        /// <returns>An asynchronous object that represents the operation.</returns>
         public async Task BeginAnimationAsync()
         {
             _completeTokenSource = new CancellationTokenSource();
@@ -297,6 +293,11 @@ namespace Waves.Visual
         #endregion
 
         #region Event handlers
+
+        private void OnCompleted()
+        {
+            this._completed?.Invoke(this, new EventArgs());
+        }
 
         private static void OnAutoStartPropertyUpdated(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
         {
@@ -470,11 +471,11 @@ namespace Waves.Visual
             CompositionTarget.Rendering += this.OnUpdate;
         }
 
-        #endregion
-
         private void Usr_ani_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             this.UpdateSpriteSheetProperties(true);
         }
+
+        #endregion
     }
 }

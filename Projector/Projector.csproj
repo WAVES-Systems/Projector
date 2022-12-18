@@ -7,7 +7,7 @@
     <ProjectGuid>{29D2512C-6827-4638-B2CF-28237C82B4FF}</ProjectGuid>
     <OutputType>library</OutputType>
     <RootNamespace>Waves.Visual.Projector</RootNamespace>
-    <AssemblyName>Waves.Visual.Projector</AssemblyName>
+    <AssemblyName>WavesSystems.Projector</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -31,7 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Waves.Visual.Projector.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\WavesSystems.Projector.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

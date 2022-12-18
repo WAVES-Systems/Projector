@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# SandCastle build folder
+[Pp]rojector[Hh]elp/[Hh]elp/
+
 # User-specific files
 *.rsuser
 *.suo

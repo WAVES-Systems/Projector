@@ -73,7 +73,7 @@ This control implements some properties from [Timeline](https://learn.microsoft.
 | [Completed](https://wavessystems.com.br/projector/html/E_Waves_Visual_Projector_Completed.htm) | Occurs when this animation has completely finished playing and will no longer enter its active period. |
 
 ## Release Notes
-v3.0.1.2:  
+v3.0.1.3:  
 * FillBehavior property;  
 * RepeatBehavior property with full implementation;  
 * AutoReverse property;  

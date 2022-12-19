@@ -43,19 +43,19 @@ I have not implemented the Width and Height automatic calculation for when these
 
 ### Properties
 This control implements some properties from [Timeline](https://learn.microsoft.com/en-us/dotnet/api/system.windows.media.animation.timeline?view=windowsdesktop-7.0), so we have basic animation properties such as [FillBehavior](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_FillBehavior.htm), [RepeatBehavior](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_RepeatBehavior.htm) and [AutoReverse](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_AutoReverse.htm), as shown in the following table:
-| Property      | Description                                                                                                         |
-|---------------|---------------------------------------------------------------------------------------------------------------------|
-| [AutoReverse](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_AutoReverse.htm)   | Gets or sets a value that indicates whether the animation plays in reverse after it completes a forward iteration.  |
-| [AutoStart](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_AutoStart.htm)     | Gets of sets a value that indicates whether the animation starts automatically after loading.                       |
-| [ColumnCount](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_ColumnCount.htm)   | Gets or Sets the amount of columns in the sprite animation sheet.                                                   |
-| [Duration](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_Duration.htm)      | Gets the length of time for which this Animation plays, not counting repetitions.                                   |
-| [FillBehavior](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_FillBehavior.htm)  | Gets or sets a value that specifies how the animation behaves after it reaches the end of its active period.        |
-| [FrameCount](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_FrameCount.htm)    | Gets or Sets the amount of frames in the sprite animation file.                                                     |
-| [FrameRate](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_FrameRate.htm)     | Gets or Sets the frame per second rate of animation.                                                                |
-| [IsPlaying](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_IsPlaying.htm)     | Gets or sets a value that indicates whether the animation is running.                                               |
-| [RepeatBehavior](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_RepeatBehavior.htm)  | Gets or sets the repeating behavior of this animation.        |
-| [Source](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_Source.htm)        | Gets or Sets the animated image displayed in the view.                                                              |
-| [TotalDuration](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_TotalDuration.htm) | Gets the length of time for which this Animation plays, counting repetitions.                                       |
+| Property                                                                                                 | Description                                                                                                        |
+|----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| [AutoReverse](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_AutoReverse.htm)       | Gets or sets a value that indicates whether the animation plays in reverse after it completes a forward iteration. |
+| [AutoStart](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_AutoStart.htm)           | Gets of sets a value that indicates whether the animation starts automatically after loading.                      |
+| [ColumnCount](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_ColumnCount.htm)       | Gets or Sets the amount of columns in the sprite animation sheet.                                                  |
+| [Duration](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_Duration.htm)             | Gets the length of time for which this Animation plays, not counting repetitions.                                  |
+| [FillBehavior](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_FillBehavior.htm)     | Gets or sets a value that specifies how the animation behaves after it reaches the end of its active period.       |
+| [FrameCount](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_FrameCount.htm)         | Gets or Sets the amount of frames in the sprite animation file.                                                    |
+| [FrameRate](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_FrameRate.htm)           | Gets or Sets the frame per second rate of animation.                                                               |
+| [IsPlaying](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_IsPlaying.htm)           | Gets or sets a value that indicates whether the animation is running.                                              |
+| [RepeatBehavior](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_RepeatBehavior.htm) | Gets or sets the repeating behavior of this animation.                                                             |
+| [Source](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_Source.htm)                 | Gets or Sets the animated image displayed in the view.                                                             |
+| [TotalDuration](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_TotalDuration.htm)   | Gets the length of time for which this Animation plays, counting repetitions.                                      |
 
 ### Methods
 
@@ -64,8 +64,7 @@ This control implements some properties from [Timeline](https://learn.microsoft.
 | [BeginAnimation()](https://wavessystems.com.br/projector/html/M_Waves_Visual_Projector_BeginAnimation.htm)    | Starts or resumes the animation.                                                                         |
 | [BeginAnimationAsync()](https://wavessystems.com.br/projector/html/M_Waves_Visual_Projector_BeginAnimationAsync.htm) | Starts or resumes the animation and holds the execution until the animation completes its active period. |
 | [Dispose()](https://wavessystems.com.br/projector/html/M_Waves_Visual_Projector_Dispose.htm)       | Releases all resources used by the [Projector](https://wavessystems.com.br/projector/html/T_Waves_Visual_Projector.htm)                                                                                    |
-| [StopAnimation()](https://wavessystems.com.br/projector/html/M_Waves_Visual_Projector_StopAnimation.htm)       | Stops the animation. 
-|                                                                                    
+| [StopAnimation()](https://wavessystems.com.br/projector/html/M_Waves_Visual_Projector_StopAnimation.htm)       | Stops the animation.                                                                                   
 
 ### Events
 | Event     | Description                                                                                           |
@@ -73,7 +72,7 @@ This control implements some properties from [Timeline](https://learn.microsoft.
 | [Completed](https://wavessystems.com.br/projector/html/E_Waves_Visual_Projector_Completed.htm) | Occurs when this animation has completely finished playing and will no longer enter its active period. |
 
 ## Release Notes
-v3.0.1.3:  
+v3.0.1.2:  
 * FillBehavior property;  
 * RepeatBehavior property with full implementation;  
 * AutoReverse property;  

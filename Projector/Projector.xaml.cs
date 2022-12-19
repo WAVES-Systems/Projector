@@ -459,6 +459,9 @@ namespace Waves.Visual
         public void Dispose()
         {
             Source = null;
+            _completeTokenSource.Cancel();
+            _watcher.Stop();
+            _repeatWatcher.Stop();
         }
 
         private void Usr_ani_Unloaded(object sender, RoutedEventArgs e)

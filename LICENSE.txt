@@ -1,4 +1,4 @@
-﻿WAVES PROJECTOR v1
+﻿WAVES PROJECTOR v3
 Copyright (c) 2022 Waves Systems
 
 Apache License

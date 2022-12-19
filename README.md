@@ -39,7 +39,7 @@ Using this control is quite simple. Check the following steps:
 
 First thing, define the namespace in the parent object attributes.
 ```xml
-xmlns:visual="clr-namespace:Waves.Visual;assembly=Waves.Visual.Projector"
+xmlns:visual="clr-namespace:Waves.Visual;assembly=WavesSystems.Projector"
 ```
 
 Right! Now you can place the element like this:

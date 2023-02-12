@@ -399,57 +399,39 @@ namespace Waves.Visual
 
                 if (_watcher.Elapsed >= _frameRateInterval)
                 {
+                    int elapsedFrames = (int)(_watcher.Elapsed.TotalMilliseconds / _frameRateInterval.TotalMilliseconds);
                     _watcher.Restart();
 
                     this.SpriteSheetOffset.X = -_currentPosition.X * this.ActualWidth;
                     this.SpriteSheetOffset.Y = -_currentPosition.Y * this.ActualHeight;
 
-                    if (_isProgressing)
+                    for (int x = 0; x < elapsedFrames; x++)
                     {
-                        this._currentFrame++;
-                        if (_currentFrame >= FrameCount)
+                        int direction = _isProgressing ? 1 : -1;
+                        this._currentFrame += direction;
+
+                        if (this._currentFrame >= FrameCount || this._currentFrame < 0)
                         {
-                            _repeatCounter++;
-                            if (!AutoReverse)
+                            if (AutoReverse)
                             {
-                                _currentPosition = new Point(0, 0);
-                                _currentFrame = 0;
+                                _isProgressing = !_isProgressing;
+                                direction *= -1;
+                                this._currentFrame += direction * 2;
                             }
                             else
                             {
-                                _isProgressing = false;
-                                this._currentFrame--;
+                                _currentPosition = new Point(0, 0);
+                                _currentFrame = 0;
+                                continue;
                             }
                         }
-                        else
-                        {
-                            _currentPosition.X++;
 
-                            if (_currentPosition.X >= ColumnCount)
-                            {
-                                _currentPosition.X = 0;
-                                _currentPosition.Y++;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        this._currentFrame--;
-                        if (_currentFrame < 0)
-                        {
-                            _currentPosition = new Point(0, 0);
-                            _currentFrame = 0;
-                            _isProgressing = true;
-                        }
-                        else
-                        {
-                            _currentPosition.X--;
+                        _currentPosition.X += direction;
 
-                            if (_currentPosition.X < 0)
-                            {
-                                _currentPosition.X = ColumnCount - 1;
-                                _currentPosition.Y--;
-                            }
+                        if (_currentPosition.X >= ColumnCount || _currentPosition.X < 0)
+                        {
+                            _currentPosition.X = _isProgressing ? 0 : ColumnCount - 1;
+                            _currentPosition.Y += direction;
                         }
                     }
                 }

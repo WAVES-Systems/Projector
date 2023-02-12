@@ -44,7 +44,8 @@
                       RepeatBehavior="Forever"
                       FillBehavior="Stop"
                       Source="/Assets/nooooooo.png"
-                      Margin="312,217,0,0" />
+                      Margin="312,217,0,0"
+                      FrameRate="40"/>
         <wv:Projector HorizontalAlignment="Left"
                       VerticalAlignment="Top"
                       Width="209"

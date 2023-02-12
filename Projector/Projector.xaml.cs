@@ -399,56 +399,60 @@ namespace Waves.Visual
 
                 if (_watcher.Elapsed >= _frameRateInterval)
                 {
+                    int elapsedFrames = (int)(_watcher.Elapsed.TotalMilliseconds / _frameRateInterval.TotalMilliseconds);
                     _watcher.Restart();
 
                     this.SpriteSheetOffset.X = -_currentPosition.X * this.ActualWidth;
                     this.SpriteSheetOffset.Y = -_currentPosition.Y * this.ActualHeight;
 
-                    if (_isProgressing)
+                    for (int x = 0; x < elapsedFrames; x++)
                     {
-                        this._currentFrame++;
-                        if (_currentFrame >= FrameCount)
+                        if (_isProgressing)
                         {
-                            _repeatCounter++;
-                            if (!AutoReverse)
+                            this._currentFrame++;
+                            if (_currentFrame >= FrameCount)
                             {
-                                _currentPosition = new Point(0, 0);
-                                _currentFrame = 0;
+                                _repeatCounter++;
+                                if (!AutoReverse)
+                                {
+                                    _currentPosition = new Point(0, 0);
+                                    _currentFrame = 0;
+                                }
+                                else
+                                {
+                                    _isProgressing = false;
+                                    this._currentFrame--;
+                                }
                             }
                             else
                             {
-                                _isProgressing = false;
-                                this._currentFrame--;
+                                _currentPosition.X++;
+
+                                if (_currentPosition.X >= ColumnCount)
+                                {
+                                    _currentPosition.X = 0;
+                                    _currentPosition.Y++;
+                                }
                             }
                         }
                         else
                         {
-                            _currentPosition.X++;
-
-                            if (_currentPosition.X >= ColumnCount)
+                            this._currentFrame--;
+                            if (_currentFrame < 0)
                             {
-                                _currentPosition.X = 0;
-                                _currentPosition.Y++;
+                                _currentPosition = new Point(0, 0);
+                                _currentFrame = 0;
+                                _isProgressing = true;
                             }
-                        }
-                    }
-                    else
-                    {
-                        this._currentFrame--;
-                        if (_currentFrame < 0)
-                        {
-                            _currentPosition = new Point(0, 0);
-                            _currentFrame = 0;
-                            _isProgressing = true;
-                        }
-                        else
-                        {
-                            _currentPosition.X--;
-
-                            if (_currentPosition.X < 0)
+                            else
                             {
-                                _currentPosition.X = ColumnCount - 1;
-                                _currentPosition.Y--;
+                                _currentPosition.X--;
+
+                                if (_currentPosition.X < 0)
+                                {
+                                    _currentPosition.X = ColumnCount - 1;
+                                    _currentPosition.Y--;
+                                }
                             }
                         }
                     }

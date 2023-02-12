@@ -1,7 +1,7 @@
 ![Badge](https://img.shields.io/badge/.NET%20Framework-4.6.1-information??style=for-the-badge&logo=.NET&logoColor=white&color=512BD4)  ![AUR license badge](https://img.shields.io/badge/Apache-2.0-blue???style=for-the-badge&logo=apache)  ![Badge](https://img.shields.io/badge/Visual%20Studio-2022-information??style=for-the-badge&logo=VisualStudio&logoColor=white&color=512BD4)  
 # Waves Projector
 
-WPF UI Element that reproduces animations based on sprite sheet files.
+A WPF UI Element that reproduces animations based on sprite sheet files.
 
 ## Content
 
@@ -43,6 +43,7 @@ I have not implemented the Width and Height automatic calculation for when these
 
 ### Properties
 This control implements some properties from [Timeline](https://learn.microsoft.com/en-us/dotnet/api/system.windows.media.animation.timeline?view=windowsdesktop-7.0), so we have basic animation properties such as [FillBehavior](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_FillBehavior.htm), [RepeatBehavior](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_RepeatBehavior.htm) and [AutoReverse](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_AutoReverse.htm), as shown in the following table:
+
 | Property                                                                                                 | Description                                                                                                        |
 |----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
 | [AutoReverse](https://wavessystems.com.br/projector/html/P_Waves_Visual_Projector_AutoReverse.htm)       | Gets or sets a value that indicates whether the animation plays in reverse after it completes a forward iteration. |

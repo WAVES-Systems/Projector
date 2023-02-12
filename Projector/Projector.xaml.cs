@@ -407,53 +407,31 @@ namespace Waves.Visual
 
                     for (int x = 0; x < elapsedFrames; x++)
                     {
-                        if (_isProgressing)
+                        int direction = _isProgressing ? 1 : -1;
+                        this._currentFrame += direction;
+
+                        if (this._currentFrame >= FrameCount || this._currentFrame < 0)
                         {
-                            this._currentFrame++;
-                            if (_currentFrame >= FrameCount)
+                            if (AutoReverse)
                             {
-                                _repeatCounter++;
-                                if (!AutoReverse)
-                                {
-                                    _currentPosition = new Point(0, 0);
-                                    _currentFrame = 0;
-                                }
-                                else
-                                {
-                                    _isProgressing = false;
-                                    this._currentFrame--;
-                                }
+                                _isProgressing = !_isProgressing;
+                                direction *= -1;
+                                this._currentFrame += direction * 2;
                             }
                             else
-                            {
-                                _currentPosition.X++;
-
-                                if (_currentPosition.X >= ColumnCount)
-                                {
-                                    _currentPosition.X = 0;
-                                    _currentPosition.Y++;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            this._currentFrame--;
-                            if (_currentFrame < 0)
                             {
                                 _currentPosition = new Point(0, 0);
                                 _currentFrame = 0;
-                                _isProgressing = true;
+                                continue;
                             }
-                            else
-                            {
-                                _currentPosition.X--;
+                        }
 
-                                if (_currentPosition.X < 0)
-                                {
-                                    _currentPosition.X = ColumnCount - 1;
-                                    _currentPosition.Y--;
-                                }
-                            }
+                        _currentPosition.X += direction;
+
+                        if (_currentPosition.X >= ColumnCount || _currentPosition.X < 0)
+                        {
+                            _currentPosition.X = _isProgressing ? 0 : ColumnCount - 1;
+                            _currentPosition.Y += direction;
                         }
                     }
                 }

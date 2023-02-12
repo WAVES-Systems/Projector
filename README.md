@@ -14,7 +14,7 @@ WPF UI Element that reproduces animations based on sprite sheet files.
 <!--te-->
 
 ## License
-This project is licensed under the terms of [Apache 2.0 license](https://github.com/WAVES-Systems/Projector/blob/main/LICENSE.txt).
+This project is licensed under the terms of [Apache 2.0 license](https://github.com/WAVES-Systems/Projector/blob/main/LICENSE).
 
 ## The Projector
 [ You can check the full documentation in [wavessystems.com.br/projector](https://wavessystems.com.br/projector). ]
@@ -72,11 +72,6 @@ This control implements some properties from [Timeline](https://learn.microsoft.
 | [Completed](https://wavessystems.com.br/projector/html/E_Waves_Visual_Projector_Completed.htm) | Occurs when this animation has completely finished playing and will no longer enter its active period. |
 
 ## Release Notes
-v3.0.1.2:  
-* FillBehavior property;  
-* RepeatBehavior property with full implementation;  
-* AutoReverse property;  
-* Completed event;  
-* BeginAnimationAsync method;
-* Fix image going blank when setting dimension properties to "Auto";
-* Improve dispose method;
+v3.0.2.0:  
+* Logical improvements;
+* Added lag frame skipping;

@@ -35,7 +35,7 @@ Right! Now you can place the element like this:
                   Width="800"
                   Height="450" />
 ```
-You got define the URI of the sprite sheet and then define the number of frames and the number of columns. The number of rows, let me automatically calculate for you. 
+You got to define the URI of the sprite sheet and then define the number of frames and the number of columns. The number of rows, let me automatically calculate for you. 
 
 **Please do not forget**: the frame and column count are especially important to run the animation properly. Mistaking these property values will create a visual mess.
 

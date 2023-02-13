@@ -73,6 +73,5 @@ This control implements some properties from [Timeline](https://learn.microsoft.
 | [Completed](https://wavessystems.com.br/projector/html/E_Waves_Visual_Projector_Completed.htm) | Occurs when this animation has completely finished playing and will no longer enter its active period. |
 
 ## Release Notes
-v3.0.2.0:  
-* Logical improvements;
-* Added lag frame skipping;
+v3.0.3.0: 
+* Restored repeat behavior feature.

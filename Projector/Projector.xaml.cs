@@ -412,6 +412,8 @@ namespace Waves.Visual
 
                         if (this._currentFrame >= FrameCount || this._currentFrame < 0)
                         {
+                            _repeatCounter++;
+
                             if (AutoReverse)
                             {
                                 _isProgressing = !_isProgressing;

@@ -8,8 +8,6 @@
              mc:Ignorable="d"
              d:DesignHeight="100"
              d:DesignWidth="100"
-             Loaded="Usr_ani_Loaded"
-             Unloaded="Usr_ani_Unloaded"
              SizeChanged="Usr_ani_SizeChanged"
              Background="{Binding ElementName=Usr_ani, Path=Background, Mode=OneWay}">
     <Rectangle x:Name="Rect_stage"

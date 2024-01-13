@@ -241,6 +241,9 @@ namespace Waves.Visual
         /// </summary>
         public void BeginAnimation()
         {
+            CompositionTarget.Rendering -= this.OnUpdate;
+            CompositionTarget.Rendering += this.OnUpdate;
+
             _watcher.Start();
             if (RepeatBehavior.HasDuration)
                 _repeatWatcher.Start();
@@ -288,6 +291,7 @@ namespace Waves.Visual
             {
                 ResetViewportPosition();
             }
+            CompositionTarget.Rendering -= this.OnUpdate;
         }
 
         #endregion
@@ -446,16 +450,6 @@ namespace Waves.Visual
             _completeTokenSource.Cancel();
             _watcher.Stop();
             _repeatWatcher.Stop();
-        }
-
-        private void Usr_ani_Unloaded(object sender, RoutedEventArgs e)
-        {
-            CompositionTarget.Rendering -= this.OnUpdate;
-        }
-
-        private void Usr_ani_Loaded(object sender, RoutedEventArgs e)
-        {
-            CompositionTarget.Rendering += this.OnUpdate;
         }
 
         private void Usr_ani_SizeChanged(object sender, SizeChangedEventArgs e)
